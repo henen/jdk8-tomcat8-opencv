@@ -69,12 +69,29 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt
 RUN apt-get update
 
 
+#install jdbc
 
-#install ant
+ADD http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.0.8.tar.gz /tmp/mysql-connector-java-5.0.8.tar.gz
+RUN tar -x -f /tmp/mysql-connector-java-5.0.8.tar.gz --wildcards --no-anchored mysql-connector-java-5.0.8-bin.jar --to-stdout > mysql-connector-java-5.0.8-bin.jar
+
+## cleanup
+
+RUN rm -rfv /tmp/*
+
+
+
+#install ant && Env ant, openCV
 
 RUN apt-get install -y ant
 ENV PATH $JAVA_HOME/bin:$PATH
 ENV LD_LIBRARY_PATH /opt/opencv-2.4.7/build/lib/
+
+sudo apt-get install libmysql-java
+
+
+ENV PATH=$PATH:/usr/share/java/mysql-connector-java.jar
+
+
 
 
 
